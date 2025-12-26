@@ -95,3 +95,4 @@ function updateUptime() {
 // Expose functions for DOM usage
 globalThis.sendGreeting = sendGreeting;
 globalThis.getStats = getStats;
+globalThis.customRequest = customRequest;

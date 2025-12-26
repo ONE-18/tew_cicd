@@ -5,34 +5,37 @@ const startTime = Date.now();
 
 function handler(req: Request): Response | Promise<Response> {
   const url = new URL(req.url);
-  
+
   // Health check endpoint
   if (url.pathname === "/health") {
     return new Response(JSON.stringify({ status: "ok", timestamp: new Date().toISOString() }), {
       headers: { "content-type": "application/json" },
     });
   }
-  
+
   // Stats endpoint
   if (url.pathname === "/stats") {
     const uptime = Math.floor((Date.now() - startTime) / 1000);
-    return new Response(JSON.stringify({
-      uptime,
-      memory: Deno.memoryUsage(),
-      version: Deno.version,
-      timestamp: new Date().toISOString()
-    }), {
-      headers: { "content-type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({
+        uptime,
+        memory: Deno.memoryUsage(),
+        version: Deno.version,
+        timestamp: new Date().toISOString(),
+      }),
+      {
+        headers: { "content-type": "application/json" },
+      },
+    );
   }
-  
+
   // API greeting endpoint
   if (url.pathname === "/api/greeting") {
     return new Response(JSON.stringify({ message: "Hola desde Deno!" }), {
       headers: { "content-type": "application/json" },
     });
   }
-  
+
   // Serve static files from public directory
   return serveDir(req, {
     fsRoot: "public",

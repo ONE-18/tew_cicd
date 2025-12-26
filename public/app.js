@@ -1,7 +1,7 @@
-let startTime = Date.now();
+const startTime = Date.now();
 
 // Verificar estado al cargar
-window.addEventListener("DOMContentLoaded", () => {
+globalThis.addEventListener("DOMContentLoaded", () => {
   checkHealth();
   updateUptime();
   setInterval(updateUptime, 1000);
@@ -91,3 +91,7 @@ function updateUptime() {
   const seconds = uptime % 60;
   document.getElementById("uptime").textContent = `${minutes}m ${seconds}s`;
 }
+
+// Expose functions for DOM usage
+globalThis.sendGreeting = sendGreeting;
+globalThis.getStats = getStats;

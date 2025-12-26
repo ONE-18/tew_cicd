@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deno App - Dashboard</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🦕 Deno Application Dashboard</h1>
+        <div class="status-badge" id="statusBadge">
+          <span class="status-dot"></span>
+          <span id="statusText">Checking...</span>
+        </div>
+      </header>
+
+      <main>
+        <section class="card">
+          <h2>📊 Estado del Sistema</h2>
+          <div class="info-grid">
+            <div class="info-item">
+              <label>Estado del Servidor:</label>
+              <span id="serverStatus" class="value">-</span>
+            </div>
+            <div class="info-item">
+              <label>Última Verificación:</label>
+              <span id="lastCheck" class="value">-</span>
+            </div>
+            <div class="info-item">
+              <label>Puerto:</label>
+              <span id="port" class="value">8000</span>
+            </div>
+            <div class="info-item">
+              <label>Uptime:</label>
+              <span id="uptime" class="value">-</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>🔧 Acciones</h2>
+          <div class="actions">
+            <button class="btn btn-primary" onclick="checkHealth()">
+              <span>🔄</span> Verificar Estado
+            </button>
+            <button class="btn btn-secondary" onclick="sendGreeting()">
+              <span>👋</span> Obtener Saludo
+            </button>
+            <button class="btn btn-info" onclick="getStats()">
+              <span>📈</span> Ver Estadísticas
+            </button>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>📝 Respuesta del Servidor</h2>
+          <div id="response" class="response-box">
+            <p class="placeholder">La respuesta aparecerá aquí...</p>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>📡 Enviar Petición Personalizada</h2>
+          <div class="form-group">
+            <label for="endpoint">Endpoint:</label>
+            <input type="text" id="endpoint" value="/" placeholder="/ruta" />
+          </div>
+          <div class="form-group">
+            <label for="method">Método:</label>
+            <select id="method">
+              <option value="GET">GET</option>
+              <option value="POST">POST</option>
+              <option value="PUT">PUT</option>
+              <option value="DELETE">DELETE</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" onclick="customRequest()">
+            Enviar Petición
+          </button>
+        </section>
+      </main>
+
+      <footer>
+        <p>
+          Powered by Deno 🦕 |
+          <a href="https://deno.land" target="_blank">deno.land</a>
+        </p>
+      </footer>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

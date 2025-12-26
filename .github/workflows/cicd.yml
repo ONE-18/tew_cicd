@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build-test-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - name: Cache dependencies
+        run: deno cache src/main.ts
+
+      - name: Format check
+        run: deno fmt --check
+
+      - name: Lint
+        run: deno lint
+
+      - name: Type check
+        run: deno check src/main.ts
+
+      - name: Run tests with coverage and JUnit
+        run: |
+          mkdir -p reports coverage
+          deno test -A --fail-fast --coverage=coverage --junit-path=reports/deno-tests.xml
+          deno coverage coverage --lcov --output=reports/coverage.lcov
+
+      - name: Upload reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: deno-reports
+          path: |
+            reports/deno-tests.xml
+            reports/coverage.lcov
+
+      - name: Build container image
+        run: docker build -t ghcr.io/${{ github.repository }}/app:${{ github.sha }} .

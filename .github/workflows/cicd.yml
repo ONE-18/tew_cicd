@@ -45,4 +45,6 @@ jobs:
             reports/coverage.lcov
 
       - name: Build container image
-        run: docker build -t ghcr.io/${{ github.repository }}/app:${{ github.sha }} .
+        run: |
+          repo_lc="${GITHUB_REPOSITORY,,}"
+          docker build -t ghcr.io/${repo_lc}/app:${GITHUB_SHA} .

@@ -16,9 +16,11 @@ function handler(req: Request): Response | Promise<Response> {
   // Stats endpoint
   if (url.pathname === "/stats") {
     const uptime = Math.floor((Date.now() - startTime) / 1000);
+    const requests = Math.floor(Math.random() * 1000); // Placeholder for request count
     return new Response(
       JSON.stringify({
         uptime,
+        requests,
         memory: Deno.memoryUsage(),
         version: Deno.version,
         timestamp: new Date().toISOString(),

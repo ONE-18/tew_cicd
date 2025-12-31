@@ -64,3 +64,19 @@ jobs:
           docker logs test-app
           docker stop test-app && docker rm test-app
           exit 1
+      
+      - name: Test Docker container stats endpoint
+        run: |
+          docker run -d -p 8000:8000 --name test-app2 -e PORT=8000 ghcr.io/${GITHUB_REPOSITORY,,}/app:${GITHUB_SHA}
+          for i in {1..10}; do
+            sleep 2
+            if curl --fail http://localhost:8000/stats; then
+              echo "Stats endpoint OK"
+              docker stop test-app2 && docker rm test-app2
+              exit 0
+            fi
+          done
+          echo "Stats endpoint failed"
+          docker logs test-app2
+          docker stop test-app2 && docker rm test-app2
+          exit 1

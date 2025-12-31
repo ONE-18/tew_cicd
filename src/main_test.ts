@@ -27,7 +27,6 @@ Deno.test("GET /stats retorna estadísticas", async () => {
   assertEquals(typeof data.requests, "number");
 });
 
-
 Deno.test("placeholder test en blanco", () => {
   // Caso sencillo que permite extender pruebas en el futuro.
 });

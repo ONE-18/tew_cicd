@@ -48,3 +48,19 @@ jobs:
         run: |
           repo_lc="${GITHUB_REPOSITORY,,}"
           docker build -t ghcr.io/${repo_lc}/app:${GITHUB_SHA} .
+      
+      - name: Test Docker container health endpoint
+        run: |
+          docker run -d -p 8000:8000 --name test-app -e PORT=8000 ghcr.io/${GITHUB_REPOSITORY,,}/app:${GITHUB_SHA}
+          for i in {1..10}; do
+            sleep 2
+            if curl --fail http://localhost:8000/health; then
+              echo "Health endpoint OK"
+              docker stop test-app && docker rm test-app
+              exit 0
+            fi
+          done
+          echo "Health endpoint failed"
+          docker logs test-app
+          docker stop test-app && docker rm test-app
+          exit 1

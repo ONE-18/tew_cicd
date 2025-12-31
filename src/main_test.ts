@@ -19,6 +19,15 @@ Deno.test("GET /health retorna ok en JSON", async () => {
   assertEquals(data.status, "ok");
 });
 
+Deno.test("GET /stats retorna estadísticas", async () => {
+  const res = await handler(new Request("http://localhost/stats"));
+  assertEquals(res.status, 200);
+  const data = await res.json();
+  assertEquals(typeof data.uptime, "number");
+  assertEquals(typeof data.requests, "number");
+});
+
+
 Deno.test("placeholder test en blanco", () => {
   // Caso sencillo que permite extender pruebas en el futuro.
 });
